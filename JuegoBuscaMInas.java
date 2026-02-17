@@ -91,9 +91,9 @@ public class JuegoBuscaMInas {
 			for (int j = 0; j < this.tablero.length; j++) {
 				if (this.tablero[i-1][j].getEstaMarcada()) {
 					System.out.print("  ^");
-				} else if (this.tablero[i-1][j].getTieneMina()) {
-					System.out.print("  *");
-				} else if(this.tablero[i-1][j].getEstaOculta()) {
+				}/*  else if (this.tablero[i-1][j].getTieneMina()) {
+					System.out.print("  *"); // debug y testeo
+				}*/ else if(this.tablero[i-1][j].getEstaOculta()) {
 					System.out.print("  -");
 				}else {
 					System.out.print("  "+this.tablero[i-1][j].getNumMinasCercanas());
@@ -108,14 +108,12 @@ public class JuegoBuscaMInas {
 		caso que ya estuviese descubierta o marcada previamente. También si excede de los límites
 		del tablero.*/
 		if (fila>this.tablero.length || fila< 1 || columna>this.tablero.length || columna<1) {
-			System.out.println("Se han excedido los limites del tablero");
 			return false;
 		}else if (!this.tablero[fila-1][columna-1].getEstaOculta()) {
 			System.out.println("casilla ya Descubierta");
 			return false;
-		}else if (this.tablero[fila-1][columna-1].getEstaMarcada()) {
-			System.out.println("Casilla ya marcada");
 		}
+
 		if(this.tablero[fila-1][columna-1].getTieneMina()) {
 			this.exploto = true;
 		}

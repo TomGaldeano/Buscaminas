@@ -1,5 +1,5 @@
 package buscaminas;
-
+// realizado por Tomas Galdeano y Juan Andres
 import java.util.Scanner;
 
 public class Buscaminas {
