@@ -1,5 +1,5 @@
 package buscaminas;
-// realizado por Tomas Galdeano y Juan Andres
+
 import java.util.Scanner;
 
 public class Buscaminas {
@@ -56,6 +56,10 @@ public class Buscaminas {
 		} while (juego.causaTerminacionJuego()==0);
 		if (juego.causaTerminacionJuego()==1) {
 			System.out.println("Ha ganado");
+		}else if(juego.causaTerminacionJuego()==2){
+			System.out.println("Exploto la mina");
+		}else {
+			System.out.println("Marco mal");
 		}
 		
 

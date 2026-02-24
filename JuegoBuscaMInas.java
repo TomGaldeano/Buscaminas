@@ -60,13 +60,13 @@ public class JuegoBuscaMInas {
 					};
 				for (int k = 0; k < posiciones.length; k++) {
 					if (posiciones[k][0]<this.tablero.length && posiciones[k][1]<this.tablero.length &&
-							posiciones[k][0]>0 && posiciones[k][1]>0) {
+							posiciones[k][0]>-1 && posiciones[k][1]>-1) {
 						if (tablero[posiciones[k][0]][posiciones[k][1]].getTieneMina()) {
 							minas++;
 						}						
 					}
 				}
-				this.tablero[i][j].setNumMinasCercanas(minas);;
+				this.tablero[i][j].setNumMinasCercanas(minas);
 				minas = 0;				
 			}			
 		}
@@ -91,8 +91,8 @@ public class JuegoBuscaMInas {
 			for (int j = 0; j < this.tablero.length; j++) {
 				if (this.tablero[i-1][j].getEstaMarcada()) {
 					System.out.print("  ^");
-				}/*  else if (this.tablero[i-1][j].getTieneMina()) {
-					System.out.print("  *"); // debug y testeo
+				}/* else if (this.tablero[i-1][j].getTieneMina()) {
+					System.out.print("  *"); // para debug
 				}*/ else if(this.tablero[i-1][j].getEstaOculta()) {
 					System.out.print("  -");
 				}else {
@@ -108,16 +108,36 @@ public class JuegoBuscaMInas {
 		caso que ya estuviese descubierta o marcada previamente. También si excede de los límites
 		del tablero.*/
 		if (fila>this.tablero.length || fila< 1 || columna>this.tablero.length || columna<1) {
+			//System.out.println("Se han excedido los limites del tablero");
 			return false;
 		}else if (!this.tablero[fila-1][columna-1].getEstaOculta()) {
-			System.out.println("casilla ya Descubierta");
+			//System.out.println("casilla ya Descubierta");
+			return false;
+		}else if (this.tablero[fila-1][columna-1].getEstaMarcada()) {
+			//System.out.println("Casilla ya marcada");
 			return false;
 		}
-
 		if(this.tablero[fila-1][columna-1].getTieneMina()) {
 			this.exploto = true;
 		}
 		this.tablero[fila-1][columna-1].setEstaOculta(false);
+		// recursion
+		if (this.tablero[fila-1][columna-1].getNumMinasCercanas()==0) {
+			int[][] posiciones = {
+				    {fila-1, columna-1}, // arriba-izquierda
+				    {fila-1, columna},   // arriba
+				    {fila-1, columna+1}, // arriba-derecha
+				    {fila,   columna-1}, // izquierda
+				    {fila,   columna+1}, // derecha
+				    {fila+1, columna-1}, // abajo-izquierda
+				    {fila+1, columna},   // abajo
+				    {fila+1, columna+1}  // abajo-derecha
+				};
+			for(int i=0;i<posiciones.length;i++) {
+				this.descubrirCasilla(posiciones[i][0], posiciones[i][1]);
+			}
+		}
+		
 		return true;
 	}
 
@@ -126,13 +146,13 @@ public class JuegoBuscaMInas {
 		caso que ya estuviese descubierta o marcada previamente. También si excede de los límites
 		del tablero. */ 
 		if (fila>this.tablero.length || fila<1 || columna>this.tablero.length || columna<1) {
-			System.out.println("Se han excedido los limites del tablero");
+			//System.out.println("Se han excedido los limites del tablero");
 			return false;
 		}else if (!this.tablero[fila-1][columna-1].getEstaOculta()) {
-			System.out.println("casilla ya Descubierta");
+			//System.out.println("casilla ya Descubierta");
 			return false;
 		}else if (this.tablero[fila-1][columna-1].getEstaMarcada()) {
-			System.out.println("Casilla ya marcada");
+			//System.out.println("Casilla ya marcada");
 		}
 		if(!this.tablero[fila-1][columna-1].getTieneMina()) {
 			this.marcoMal = true;
